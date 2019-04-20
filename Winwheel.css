@@ -1,0 +1,162 @@
+body {
+    margin: 20px;
+}
+
+h2 {
+    font-size: 40px;
+    margin: 10px;
+}
+
+div {
+    display: flex;
+    justify-content: center;
+}
+
+div.canvas {
+    margin-top: 20px;
+}
+
+div.alert {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: none;
+}
+
+div.more-input-alert {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: none;
+}
+
+p {
+    text-align: center;
+    margin: 0;
+}
+
+button {
+    font-size: 16px;
+    padding: 6px 16px;
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+#enter-options {
+    margin-bottom: 40px;
+}
+
+div#input-area>p {
+    margin: 20px;
+    font-size: 25px;
+}
+
+#input-area {
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 5px;
+    width: 300px;
+    margin-top: 80px;
+    z-index: 1;
+}
+
+.input-number {
+    flex-direction: column;
+    justify-content: center;
+}
+
+#input-number {
+    display: none;
+}
+
+#input-name {
+    margin-top: 20px;
+}
+
+#result {
+    width: 500px;
+    height: 300px;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    background-color: rgba(240, 229, 229, 0.9);
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+#text-result {
+    font-size: 80px;
+    margin: 0;
+}
+
+textarea {
+    border-radius: 5px;
+    margin-bottom: 16px;
+}
+
+input {
+    border-radius: 5px;
+}
+
+button:hover {
+    color: red;
+}
+
+#spin {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 200px;
+}
+
+.buttons {
+    margin-bottom: 20px;
+}
+
+.result-button {
+    margin: 0 50px;
+    width: 100px;
+}
+
+.button {
+    margin: 0 20px;
+    width: 100px;
+    background-color: aqua;
+}
+
+.number {
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    margin: 0 30px 20px 30px;
+}
+
+img {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    margin-top: 225px;
+    margin-left: 245px;
+}
+
+#result {
+    z-index: 2;
+}
+
+button:focus {
+    outline: 0;
+}
+
+#save-button, #ok-button {
+    background-color: rgb(11, 238, 11);
+}
+
+#cancel-button, #remove-button {
+    background-color: gray;
+}
+

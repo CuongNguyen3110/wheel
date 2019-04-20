@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./Winwheel.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.4/randomColor.js"></script>
+</head>
+
+<body>
+    <div>
+        <button id="enter-options">Click here to enter your options</button>
+    </div>
+    <div id="canvas">
+        <div id="input-area" style="display: none">
+            <p>Enter your options</p>
+            <div>
+                <button class="button" id="name-button">Name</button>
+                <button class="button" id="number-button">Number</button>
+            </div>
+            <div class="alert alert-danger" role="alert" id="alert">
+                Please input options !!!
+            </div>
+            <div class="alert alert-danger" role="alert" id="more-input-alert">
+                Please input more options !!!
+            </div>
+            <textarea name="" id="input-name" cols="30" rows="5" placeholder="Enter your options here"></textarea>
+            <div id="input-number">
+                <div class="input-number">
+                    <p>From</p>
+                    <input type="number" class="number" id="number-from" value="0" min="0" max="100"
+                        oninput="inputNumber(event)">
+                </div>
+                <div class="input-number">
+                    <p>To</p>
+                    <input type="number" class="number" id="number-to" value="100" min="1" max="100"
+                        oninput="inputNumber(event)">
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="button" id="save-button">Save</button>
+                <button class="button" id="cancel-button">Cancel</button>
+            </div>
+        </div>
+        <div id="result">
+            <h2>The answer is :</h2>
+            <div id="result-item">
+
+
+            </div>
+            <div>
+                <button class="result-button" id="remove-button">Remove</button>
+                <button class="result-button" id="ok-button">OK</button>
+            </div>
+        </div>
+        <canvas id="myCanvas" width="500" height="500"></canvas>
+        <img src="./iconfinder_left_1167961.svg" alt="pointer-image" id="pointer-image">
+        <button id="spin">SPIN</button>
+    </div>
+    <div class="button">
+
+    </div>
+    <script src='./Winwheel.js'></script>
+    <script>
+        let userInput = [1, 2, 3, 4];
+        let theWheel = new Winwheel(userInput);
+
+        function inputNumber(event) {
+            // check if event input is a number or not
+            let regex = /-?(\d+|\d+\.\d+|\.\d+)([eE][-+]?\d+)?/;
+            if (event.inputType == "insertText") {
+                if (!regex.test(event.data)) {
+                    event.target.value = 0;
+                }
+            } else {
+                if (!regex.test(event.target.value)) {
+                    event.target.value = 0;
+                }
+            }
+            console.log(event, event.target.value);
+        }
+
+        document.getElementById("enter-options").addEventListener("click", () => {
+            if (document.getElementById("input-area").style.display == "none") {
+                document.getElementById("input-area").style.display = "flex";
+                document.getElementById("myCanvas").style.opacity = "0.5";
+            } else {
+                document.getElementById("input-area").style.display = "none";
+                document.getElementById("myCanvas").style.opacity = "1";
+            }
+        })
+        document.getElementById("name-button").addEventListener("click", () => {
+            theWheel.id = 1;
+            document.getElementById("input-number").style.display = "none";
+            document.getElementById("input-name").style.display = "block";
+        })
+        document.getElementById("number-button").addEventListener("click", () => {
+            theWheel.id = 2;
+            document.getElementById("input-name").style.display = "none";
+            document.getElementById("input-number").style.display = "flex";
+            document.getElementById("alert").style.display = "none";
+            document.getElementById("more-input-alert").style.display = "none";
+        })
+        document.getElementById("cancel-button").addEventListener("click", () => {
+            document.getElementById("input-area").style.display = "none";
+            document.getElementById("myCanvas").style.opacity = "1";
+        })
+        document.getElementById("save-button").addEventListener("click", () => {
+            if (theWheel.id == 1 && document.getElementById("input-name").value.trim() == "") {
+                document.getElementById("more-input-alert").style.display = "none";
+                document.getElementById("alert").style.display = "block";
+            } else if (theWheel.id == 1 && document.getElementById("input-name").value.trim().split("\n").length == 1) {
+                document.getElementById("more-input-alert").style.display = "block";
+                document.getElementById("alert").style.display = "none";
+            } else {
+                document.getElementById("myCanvas").style.opacity = "1";
+                document.getElementById("input-area").style.display = "none";
+                document.getElementById("alert").style.display = "none";
+                if (theWheel.id == 1) {
+                    let inputArray = document.getElementById("input-name").value.split("\n");
+                    userInput = inputArray.filter((item) => {
+                        // filter out space in a string
+                        return /\S/.test(item);
+                    });
+                    theWheel.name = userInput.map((item) => {
+                        if (item.trim().length > 9) {
+                            let input = item.trim().slice(0, 9);
+                            item = input + "...";
+                        }
+                        if (/^\d+$/.test(item)) {
+                            return parseInt(item.trim());
+                        } else {
+                            return item.trim();
+                        }
+                    });
+                    console.log(theWheel.name);
+                }
+                if (theWheel.id == 2) {
+                    let numberFrom = parseInt(document.getElementById("number-from").value);
+                    let numberTo = parseInt(document.getElementById("number-to").value);
+                    theWheel.name = [];
+                    if (numberTo - numberFrom > 100) {
+                        numberTo = numberFrom + 100;
+                    }
+                    if (numberFrom >= numberTo) {
+                        numberTo = numberFrom + 3;
+                    }
+                    for (let i = numberFrom; i <= numberTo; i++) {
+                        theWheel.name.push(i);
+                    }
+                    document.getElementById("number-to").value = numberTo;
+                    document.getElementById("number-from").value = numberFrom;
+                }
+                theWheel.setProperty();
+                // for (let i = 0; i < theWheel.numSegments; i++) {
+                //     theWheel.color.push(theWheel.getRandomColor());
+                // }
+                theWheel.clearCanvas();
+                theWheel.draw();
+            }
+        })
+        document.getElementById("ok-button").addEventListener("click", () => {
+            theWheel.clearTheResult();
+        })
+        document.getElementById("remove-button").addEventListener("click", () => {
+            theWheel.clearTheResult();
+            if (theWheel.name.length > 2) {
+                theWheel.deleteOption();
+            }
+        })     
+    </script>
+</body>
+
+</html>
