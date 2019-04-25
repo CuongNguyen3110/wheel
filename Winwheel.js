@@ -1,30 +1,33 @@
-function Winwheel(options) {
-    if (options !== null) {
-        this.id = 1;
-        this.name = [...options];
-        this.color = [];
-        this.canvas = document.getElementById("myCanvas");
-        this.ctx = this.canvas.getContext("2d");
-        this.centerX = this.canvas.width / 2;
-        this.centerY = this.canvas.height / 2;
-        this.radius = this.canvas.width / 2 - 10;
-        this.pinNumber = 0;
-        for (let i = 0; i < this.numSegments; i++) {
-            this.color.push(this.getRandomColor());
-        }
+theWheel = new function __Winwheel() {
+
+    this.id = 1;
+    this.name = [1, 2, 3, 4];
+    this.color = [];
+    this.canvas = document.getElementById("myCanvas");
+    this.ctx = this.canvas.getContext("2d");
+    this.centerX = this.canvas.width / 2;
+    this.centerY = this.canvas.height / 2;
+    this.radius = this.canvas.width / 2 - 10;
+    this.pinNumber = 0;
+    for (let i = 0; i < this.numSegments; i++) {
+        this.color.push(this.getRandomColor());
+
     }
+
     // set properties for the wheel when user inputs are adjusted
-    this.setProperty = function() {
+    this.setProperty = function () {
         this.numSegments = this.name.length;
         this.degreeEach = 2 * Math.PI / this.numSegments;
         for (let i = 0; i < this.numSegments; i++) {
             this.color.push(this.getRandomColor());
         }
     }
+
     // Clear the canvas before drawing a new one
     this.clearCanvas = function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+
     // Draw the Wheel
     this.draw = function () {
         let colorId = 0;
@@ -58,6 +61,7 @@ function Winwheel(options) {
             colorId++;
         }
     }
+
     // Draw a Segment 
     this.drawSegment = function (colorId) {
         this.ctx.lineWidth = 1;
@@ -69,6 +73,7 @@ function Winwheel(options) {
         this.ctx.fill();
         this.ctx.stroke();
     }
+
     // Get random color
     this.getRandomColor = function () {
         let letters = '0123456789ABCDEF';
@@ -80,12 +85,14 @@ function Winwheel(options) {
         }
         return color;
     }
+
     // Rotate the canvas a degree of one-seventh of each segment degree
     this.rotate = function () {
         this.ctx.translate(this.centerX, this.centerY);
         this.ctx.rotate(Math.PI / 18);
         this.ctx.translate(-this.centerX, -this.centerY);
     }
+
     // Rotate the wheel
     this.rotateWheel = function () {
         let startAngle = 0;
@@ -153,12 +160,14 @@ function Winwheel(options) {
             }
         });
     }
+
     // delete option when clicking remove button
     this.deleteOption = function () {
         this.name.splice(this.pinNumber, 1);
         this.setProperty();
         this.draw();
     }
+    
     // clearTheResult before printing the new one
     this.clearTheResult = function () {
         $("#result").hide();
