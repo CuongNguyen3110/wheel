@@ -1,51 +1,32 @@
-class Winwheel {
-    constructor(options) {
-        if (options !== null) {
-            this.id = 1;
-            this.name = [...options];
-            this.color = [];
-            this.setProperty();
-            this.canvas = document.getElementById("myCanvas");
-            this.ctx = this.canvas.getContext("2d");
-            this.centerX = this.canvas.width / 2;
-            this.centerY = this.canvas.height / 2;
-            this.radius = this.canvas.width / 2 - 10;
-            this.pinNumber = 0;
-            for (let i = 0; i < this.numSegments; i++) {
-                this.color.push(this.getRandomColor());
-            }
-            this.draw();
-            this.rotateWheel();
-        } else {
-            this.name = [1, 2, 3, 4];
-            this.setProperty();
+function Winwheel(options) {
+    if (options !== null) {
+        this.id = 1;
+        this.name = [...options];
+        this.color = [];
+        this.canvas = document.getElementById("myCanvas");
+        this.ctx = this.canvas.getContext("2d");
+        this.centerX = this.canvas.width / 2;
+        this.centerY = this.canvas.height / 2;
+        this.radius = this.canvas.width / 2 - 10;
+        this.pinNumber = 0;
+        for (let i = 0; i < this.numSegments; i++) {
+            this.color.push(this.getRandomColor());
         }
     }
     // set properties for the wheel when user inputs are adjusted
-    setProperty() {
+    this.setProperty = function() {
         this.numSegments = this.name.length;
         this.degreeEach = 2 * Math.PI / this.numSegments;
         for (let i = 0; i < this.numSegments; i++) {
             this.color.push(this.getRandomColor());
         }
-        // if (this.numSegments < 10) {
-        //     this.speed = 15;
-        // } else if (this.numSegments < 30) {
-        //     this.speed = 7;
-        // } else if (this.numSegments < 50) {
-        //     this.speed = 3;
-        // } else if (this.numSegments < 70) {
-        //     this.speed = 1.4;
-        // } else {
-        //     this.speed = 0.7;
-        // }
     }
     // Clear the canvas before drawing a new one
-    clearCanvas() {
+    this.clearCanvas = function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
     // Draw the Wheel
-    draw() {
+    this.draw = function () {
         let colorId = 0;
         for (let i = 0; i < this.numSegments; i++) {
             this.drawSegment(colorId);
@@ -78,7 +59,7 @@ class Winwheel {
         }
     }
     // Draw a Segment 
-    drawSegment(colorId) {
+    this.drawSegment = function (colorId) {
         this.ctx.lineWidth = 1;
         this.ctx.beginPath();
         this.ctx.moveTo(this.centerX, this.centerY);
@@ -89,33 +70,32 @@ class Winwheel {
         this.ctx.stroke();
     }
     // Get random color
-    getRandomColor() {
-        // let letters = '0123456789ABCDEF';
-        // let color = '#';
-        // for (let i = 0; i < 6; i++) {
-        //     color += letters[Math.floor(Math.random() * 16)];
-        // } if (color == '#000000') {
-        //     color = '#123456';
-        // }
-        let color = randomColor();
+    this.getRandomColor = function () {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        } if (color == '#000000') {
+            color = '#123456';
+        }
         return color;
     }
     // Rotate the canvas a degree of one-seventh of each segment degree
-    rotate() {
+    this.rotate = function () {
         this.ctx.translate(this.centerX, this.centerY);
         this.ctx.rotate(Math.PI / 18);
         this.ctx.translate(-this.centerX, -this.centerY);
     }
     // Rotate the wheel
-    rotateWheel() {
+    this.rotateWheel = function () {
         let startAngle = 0;
-        document.getElementById("spin").addEventListener("click", () => {
+        $(".spin").click(() => {
             if (this.numSegments > 2) {
-                document.getElementById("remove-button").style.display = "block";
+                $(".remove-button").show();
             } else {
-                document.getElementById("remove-button").style.display = "none";
+                $(".remove-button").hide();
             }
-            document.getElementById("spin").innerText = "?";
+            $(".spin").text("?");
             let counter = Math.floor(Math.random() * 100);
             let spin = setInterval(frame, 10);
             let spinSlower1 = setInterval(frame, 15);
@@ -130,9 +110,6 @@ class Winwheel {
             this.pinNumber = this.name.length - pinNumber - 1;
             let i = 0;
             this.clearTheResult();
-
-            // console.log(rotateNumber, pinNumber, this.name[this.pinNumber], counter, startAngle);
-            // console.log(endAngle, this.degreeEach);
 
             function frame() {
                 if (counter == 300) {
@@ -149,28 +126,27 @@ class Winwheel {
                 }
                 if (counter == 600) {
                     clearInterval(spinSlower4);
-                    document.getElementById("spin").innerText = "SPIN";
+                    $(".spin").text("SPIN");
                     let p = document.createElement("p");
                     p.id = "text-result";
-
                     p.innerText = `${self.name[self.pinNumber]}`;
 
                     setTimeout(() => {
-                        document.getElementById("result").style.display = "flex";
-                        document.getElementById("result-item").appendChild(p);
+                        $("#result").show();
+                        $("#result-item").append(p);
                     }
                         , 1000);
                     startAngle += rotateAngle;
                 }
                 else {
-                    document.getElementById("pointer-image").style.transform = "none";
+                    $(".pointer-image").css("transform", "none");
                     self.clearCanvas();
                     self.rotate();
                     self.draw();
                     counter++;
                     i++;
                     if (i == 7) {
-                        document.getElementById("pointer-image").style.transform = "rotate(-15deg)";
+                        $(".pointer-image").css("transform", "rotate(-15deg)");
                         i = 0;
                     }
                 }
@@ -178,18 +154,51 @@ class Winwheel {
         });
     }
     // delete option when clicking remove button
-    deleteOption() {
+    this.deleteOption = function () {
         this.name.splice(this.pinNumber, 1);
         this.setProperty();
         this.draw();
     }
     // clearTheResult before printing the new one
-    clearTheResult() {
-        document.getElementById("result").style.display = "none";
-        let result = document.getElementById("result-item");
-        while (result.hasChildNodes()) {
-            result.removeChild(result.firstChild);
-        }
+    this.clearTheResult = function () {
+        $("#result").hide();
+        $("#result-item").empty();
+    }
+
+    // display
+    this.displayInputArea = function (canvas) {
+        let html = `
+        <p>Enter your options</p>
+        <div>
+            <button class="button name-button">Name</button>
+            <button class="button number-button">Number</button>
+        </div>
+        <div class="alert alert-danger input-alert" role="alert">
+            Please input options !!!
+        </div>
+        <div class="alert alert-danger more-input-alert" role="alert">
+            Please input more options !!!
+        </div>
+        <textarea class="input-name" cols="30" rows="5" placeholder="Enter your options here"></textarea>
+        <div class="input-number-area">
+            <div class="input-number">
+                <p>From</p>
+                <input type="number" class="number number-from"  value="0" min="0" max="100"
+                    oninput="inputNumber(event)">
+            </div>
+            <div class="input-number">
+                <p>To</p>
+                <input type="number" class="number number-to"  value="100" min="1" max="100"
+                    oninput="inputNumber(event)">
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="button save-button">Save</button>
+            <button class="button cancel-button">Cancel</button>
+        </div>
+        `
+
+        $(canvas).html(html);
     }
 }
 
