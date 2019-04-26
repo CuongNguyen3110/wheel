@@ -1,4 +1,4 @@
-theWheel = new function __Winwheel() {
+var Wheel = new function __Wheel() {
 
     this.id = 1;
     this.name = [1, 2, 3, 4];
@@ -9,10 +9,7 @@ theWheel = new function __Winwheel() {
     this.centerY = this.canvas.height / 2;
     this.radius = this.canvas.width / 2 - 10;
     this.pinNumber = 0;
-    for (let i = 0; i < this.numSegments; i++) {
-        this.color.push(this.getRandomColor());
-
-    }
+    
 
     // set properties for the wheel when user inputs are adjusted
     this.setProperty = function () {
