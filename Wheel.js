@@ -1,6 +1,5 @@
 var Wheel = new function __Wheel() {
 
-    this.id = 1;
     this.name = [1, 2, 3, 4];
     this.color = [];
     this.canvas = document.getElementById("myCanvas");
@@ -13,15 +12,16 @@ var Wheel = new function __Wheel() {
 
     // set properties for the wheel when user inputs are adjusted
     this.setProperty = function () {
+        console.log(this);
         this.numSegments = this.name.length;
         this.degreeEach = 2 * Math.PI / this.numSegments;
         for (let i = 0; i < this.numSegments; i++) {
-            this.color.push(this.getRandomColor());
+            this.color.push(getRandomColor());
         }
     }
 
     // Clear the canvas before drawing a new one
-    this.clearCanvas = function () {
+    this.clearCanvas = function () { 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
@@ -71,18 +71,6 @@ var Wheel = new function __Wheel() {
         this.ctx.stroke();
     }
 
-    // Get random color
-    this.getRandomColor = function () {
-        let letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        } if (color == '#000000') {
-            color = '#123456';
-        }
-        return color;
-    }
-
     // Rotate the canvas a degree of one-seventh of each segment degree
     this.rotate = function () {
         this.ctx.translate(this.centerX, this.centerY);
@@ -113,7 +101,6 @@ var Wheel = new function __Wheel() {
             let pinNumber = Math.floor((endAngle % (2 * Math.PI)) / this.degreeEach);
             this.pinNumber = this.name.length - pinNumber - 1;
             let i = 0;
-            this.clearTheResult();
 
             function frame() {
                 if (counter == 300) {
@@ -149,7 +136,7 @@ var Wheel = new function __Wheel() {
                     self.draw();
                     counter++;
                     i++;
-                    if (i == 7) {
+                    if (i == 18) {
                         $(".pointer-image").css("transform", "rotate(-15deg)");
                         i = 0;
                     }
@@ -164,47 +151,17 @@ var Wheel = new function __Wheel() {
         this.setProperty();
         this.draw();
     }
-    
-    // clearTheResult before printing the new one
-    this.clearTheResult = function () {
-        $("#result").hide();
-        $("#result-item").empty();
-    }
 
-    // display
-    this.displayInputArea = function (canvas) {
-        let html = `
-        <p>Enter your options</p>
-        <div>
-            <button class="button name-button">Name</button>
-            <button class="button number-button">Number</button>
-        </div>
-        <div class="alert alert-danger input-alert" role="alert">
-            Please input options !!!
-        </div>
-        <div class="alert alert-danger more-input-alert" role="alert">
-            Please input more options !!!
-        </div>
-        <textarea class="input-name" cols="30" rows="5" placeholder="Enter your options here"></textarea>
-        <div class="input-number-area">
-            <div class="input-number">
-                <p>From</p>
-                <input type="number" class="number number-from"  value="0" min="0" max="100"
-                    oninput="inputNumber(event)">
-            </div>
-            <div class="input-number">
-                <p>To</p>
-                <input type="number" class="number number-to"  value="100" min="1" max="100"
-                    oninput="inputNumber(event)">
-            </div>
-        </div>
-        <div class="buttons">
-            <button class="button save-button">Save</button>
-            <button class="button cancel-button">Cancel</button>
-        </div>
-        `
-
-        $(canvas).html(html);
+    // Get random color
+    function getRandomColor () {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        } if (color == '#000000') {
+            color = '#123456';
+        }
+        return color;
     }
 }
 
