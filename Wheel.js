@@ -8,6 +8,10 @@ var Wheel = new function __Wheel() {
     this.centerY = this.canvas.height / 2;
     this.radius = this.canvas.width / 2 - 10;
     this.pinNumber = 0;
+    let self = this;
+    this.counter = Math.floor(Math.random() * 100);
+    this.startAngle = 0;
+    this.endAngle = 0;
     
 
     // set properties for the wheel when user inputs are adjusted
@@ -80,69 +84,68 @@ var Wheel = new function __Wheel() {
 
     // Rotate the wheel
     this.rotateWheel = function () {
-        let startAngle = 0;
-        $(".spin").click(() => {
+        $("#canvas .spin").click(() => {
+            console.log(this)
             if (this.numSegments > 2) {
-                $(".remove-button").show();
+                $("#result .remove-button").show();
             } else {
-                $(".remove-button").hide();
+                $("#result .remove-button").hide();
             }
             $(".spin").text("?");
-            let counter = Math.floor(Math.random() * 100);
-            let spin = setInterval(frame, 10);
-            let spinSlower1 = setInterval(frame, 15);
-            let spinSlower2 = setInterval(frame, 25);
-            let spinSlower3 = setInterval(frame, 35);
-            let spinSlower4 = setInterval(frame, 50);
-            let self = this;
-            let rotateNumber = 600 - counter;
-            let rotateAngle = rotateNumber * Math.PI / 18;
-            let endAngle = startAngle + rotateAngle;
-            let pinNumber = Math.floor((endAngle % (2 * Math.PI)) / this.degreeEach);
+            let i = 0;  
+            this.spin = setInterval(frame, 10);
+            this.spinSlower1 = setInterval(frame, 15);
+            this.spinSlower2 = setInterval(frame, 25);
+            this.spinSlower3 = setInterval(frame, 35);
+            this.spinSlower4 = setInterval(frame, 50);
+            let rotateNumber = 600 - this.counter;
+            this.rotateAngle = rotateNumber * Math.PI / 18;
+            this.endAngle = this.startAngle + this.rotateAngle;
+            let pinNumber = Math.floor((this.endAngle % (2 * Math.PI)) / this.degreeEach);
             this.pinNumber = this.name.length - pinNumber - 1;
-            let i = 0;
-
-            function frame() {
-                if (counter == 300) {
-                    clearInterval(spin);
-                }
-                if (counter == 380) {
-                    clearInterval(spinSlower1);
-                }
-                if (counter == 460) {
-                    clearInterval(spinSlower2);
-                }
-                if (counter == 540) {
-                    clearInterval(spinSlower3)
-                }
-                if (counter == 600) {
-                    clearInterval(spinSlower4);
-                    $(".spin").text("SPIN");
-                    let p = document.createElement("p");
-                    p.id = "text-result";
-                    p.innerText = `${self.name[self.pinNumber]}`;
-
-                    setTimeout(() => {
-                        $("#result").show();
-                        $("#result-item").append(p);
-                    }
-                        , 1000);
-                    startAngle += rotateAngle;
-                }
-                else {
-                    $(".pointer-image").css("transform", "none");
-                    self.clearCanvas();
-                    self.rotate();
-                    self.draw();
-                    counter++;
-                    i++;
-                    if (i == 18) {
-                        $(".pointer-image").css("transform", "rotate(-15deg)");
-                        i = 0;
-                    }
-                }
-            }
         });
+    }
+
+    function frame() {
+        if (self.counter == 300) {
+            clearInterval(self.spin);
+        }
+        if (self.counter == 380) {
+            clearInterval(self.spinSlower1);
+        }
+        if (self.counter == 460) {
+            clearInterval(self.spinSlower2);
+        }
+        if (self.counter == 540) {
+            clearInterval(self.spinSlower3)
+        }
+        if (self.counter == 600) {
+            clearInterval(self.spinSlower4);
+            $("#canvas .spin").text("SPIN");
+            let p = document.createElement("p");
+            p.id = "text-result";
+            p.innerText = `${self.name[self.pinNumber]}`;
+
+            setTimeout(() => {
+                $("#result").show();
+                $("#result-item").append(p);
+            }
+                , 1000);
+            self.startAngle += self.rotateAngle;
+            self.counter = 0;
+        }
+        else {
+            $("#canvas .pointer-image").removeClass("rotate");
+            self.clearCanvas();
+            self.rotate();
+            self.draw();
+            self.counter++;
+            // i++;
+            // if (i == 18) {
+            //     $("#canvas .pointer-image").addClass("rotate");
+            //     i = 0;
+            // }
+        }
     }
 
     // delete option when clicking remove button

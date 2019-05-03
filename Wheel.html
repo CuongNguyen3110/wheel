@@ -35,7 +35,7 @@
         <div>
             <button class="enter-options">Click here to enter your options</button>
         </div>
-        <div>
+        <div id="canvas">
             <div id="input-area" style="display: none">
                 
             </div>
@@ -52,16 +52,16 @@
 
     </div>
     <script src='./Wheel.js'></script>  
-    <script src='./inputArea.js'></script>
+    <script src='./InputArea.js'></script>
     <script src='./ResultArea.js'></script>
     <script>
         Wheel.setProperty();
         Wheel.draw();
         Wheel.rotateWheel();
-        InputArea.displayInputArea("#input-area");
+        InputArea.display("#input-area");
         InputArea.enterOptions();
         InputArea.handleInputArea();
-        ResultArea.displayResultArea();
+        ResultArea.display("#result");
         ResultArea.handleButtonClick();
     </script>
     

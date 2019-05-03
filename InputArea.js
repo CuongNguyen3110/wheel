@@ -3,7 +3,7 @@ var InputArea = new function __InputArea() {
     this.id = "name";
 
     // display
-    this.displayInputArea = function (canvas) {
+    this.display = function (canvas) {
         let html = `
         <p>Enter your options</p>
         <div>
@@ -56,47 +56,47 @@ var InputArea = new function __InputArea() {
     this.enterOptions = function () {
         $("#body .enter-options").click(() => {
             $("#input-area").toggle();
-            if ($("#myCanvas").css("opacity") == "0.5") {
-                $("#myCanvas").css("opacity", "1");
+            if ($("#myCanvas").hasClass("blur")) {
+                $("#myCanvas").removeClass("blur");
             } else {
-                $("#myCanvas").css("opacity", "0.5");
+                $("#myCanvas").addClass("blur");
             }
         })
     }
 
     this.handleInputArea = function () {
-        $("#body #input-area .name-button").click(() => {
+        $("#input-area .name-button").click(() => {
             this.id = "name";
-            $(".input-number-area").hide();
-            $("#body #input-area .input-name").show();
+            $("#input-area .input-number-area").hide();
+            $("#input-area .input-name").show();
         })
 
-        $("#body #input-area .number-button").click(() => {
+        $("#input-area .number-button").click(() => {
             this.id = "number";
-            $("#body #input-area .input-name").hide();
-            $(".input-number-area").show();
-            $("#body #input-area .input-alert").hide();
-            $("#body #input-area .more-input-alert").hide();
+            $("#input-area .input-name").hide();
+            $("#input-area .input-number-area").show();
+            $("#input-area .input-alert").hide();
+            $("#input-area .more-input-alert").hide();
         })
 
-        $("#body #input-area .cancel-button").click(() => {
+        $("#input-area .cancel-button").click(() => {
             $("#input-area").hide();
-            $("#myCanvas").css("opacity", "1");
+            $("#myCanvas").removeClass("blur");
         })
 
-        $("#body #input-area .save-button").click(() => {
-            if (this.id == "name" && $("#body #input-area .input-name").val().trim() == "") {
-                $("#body #input-area .more-input-alert").hide();
-                $("#body #input-area .input-alert").show();
-            } else if (this.id == "name" && $("#body #input-area .input-name").val().trim().split("\n").length == 1) {
-                $("#body #input-area .more-input-alert").show();
-                $("#body #input-area .input-alert").hide();
+        $("#input-area .save-button").click(() => {
+            if (this.id == "name" && $("#input-area .input-name").val().trim() == "") {
+                $("#input-area .more-input-alert").hide();
+                $("#input-area .input-alert").show();
+            } else if (this.id == "name" && $("#input-area .input-name").val().trim().split("\n").length == 1) {
+                $("#input-area .more-input-alert").show();
+                $("#input-area .input-alert").hide();
             } else {
-                $("#myCanvas").css("opacity", "1");
+                $("#myCanvas").removeClass("blur");
                 $("#input-area").hide();
-                $("#body #input-area .input-alert").hide();
+                $("#input-area .input-alert").hide();
                 if (this.id == "name") {
-                    let inputArray = $("#body #input-area .input-name").val().split("\n");
+                    let inputArray = $("#input-area .input-name").val().split("\n");
                     userInput = inputArray.filter((item) => {
                         // filter out space in a string
                         return /\S/.test(item);
@@ -115,8 +115,8 @@ var InputArea = new function __InputArea() {
                     console.log(Wheel.name);
                 }
                 if (this.id == "number") {
-                    let numberFrom = parseInt($("#body .input-number-area .number-from").val());
-                    let numberTo = parseInt($("#body .input-number-area .number-to").val());
+                    let numberFrom = parseInt($("#input-area .input-number-area .number-from").val());
+                    let numberTo = parseInt($("#input-area .input-number-area .number-to").val());
                     Wheel.name = [];
                     if (numberTo - numberFrom > 100) {
                         numberTo = numberFrom + 100;
@@ -127,8 +127,8 @@ var InputArea = new function __InputArea() {
                     for (let i = numberFrom; i <= numberTo; i++) {
                         Wheel.name.push(i);
                     }
-                    $("#body .input-number-area .number-to").val(numberTo);
-                    $("#body .input-number-area .number-from").val(numberFrom);
+                    $("#input-area .input-number-area .number-to").val(numberTo);
+                    $("#input-area .input-number-area .number-from").val(numberFrom);
                 }
                 Wheel.setProperty();
                 Wheel.clearCanvas();

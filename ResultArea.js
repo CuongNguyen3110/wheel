@@ -1,6 +1,6 @@
 var ResultArea = new function __ResultArea() {
 
-    this.displayResultArea = function () {
+    this.display = function (canvas) {
         let html = `
         <h2>The answer is :</h2>
         <div id="result-item">
@@ -13,15 +13,15 @@ var ResultArea = new function __ResultArea() {
         </div>
         `
 
-        $("#result").html(html);
+        $(canvas).html(html);
     }
 
     this.handleButtonClick = function () {
-        $("#body #result .ok-button").click(() => {
+        $("#result .ok-button").click(() => {
             clearTheResult();
         })
 
-        $("#body #result .remove-button").click(() => {
+        $("#result .remove-button").click(() => {
             clearTheResult();
             if (Wheel.name.length > 2) {
                 Wheel.deleteOption();

@@ -72,6 +72,10 @@ div#input-area>p {
     z-index: 1;
 }
 
+.blur {
+    opacity: 0.5;
+}
+
 .input-number {
     flex-direction: column;
     justify-content: center;
@@ -152,6 +156,10 @@ img {
     width: 50px;
     margin-top: 225px;
     margin-left: 245px;
+}
+
+.rotate {
+    transform: rotate(-15deg);
 }
 
 #result {
