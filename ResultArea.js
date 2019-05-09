@@ -1,9 +1,11 @@
 var ResultArea = new function __ResultArea() {
 
+    this.isActive = false;
+
     this.display = function (canvas) {
         let html = `
         <h2>The answer is :</h2>
-        <div id="result-item">
+        <div class="result-item">
 
 
         </div>
@@ -18,11 +20,13 @@ var ResultArea = new function __ResultArea() {
 
     this.handleButtonClick = function () {
         $("#result .ok-button").click(() => {
-            clearTheResult();
+            this.clearTheResult();
+            this.isActive = false;
         })
 
         $("#result .remove-button").click(() => {
-            clearTheResult();
+            this.clearTheResult();
+            this.isActive = false;
             if (Wheel.name.length > 2) {
                 Wheel.deleteOption();
             }
@@ -30,8 +34,8 @@ var ResultArea = new function __ResultArea() {
     }
 
     // clearTheResult before printing the new one
-    function clearTheResult () {
+    this.clearTheResult = () => {
         $("#result").hide();
-        $("#result-item").empty();
+        $("#result .result-item").empty();
     }
 }

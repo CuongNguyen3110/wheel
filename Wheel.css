@@ -10,6 +10,10 @@ h2 {
     align-items: center;
 }
 
+#canvas {
+    margin-top: 30px;
+}
+
 .container {
     justify-content: space-between;
 }
@@ -48,8 +52,9 @@ p {
 
 button {
     font-size: 16px;
+    font-weight: bold;
     padding: 6px 16px;
-    background-color: blue;
+    background-color: rgb(66, 66, 221);
     color: white;
     border-radius: 5px;
     border: none;
@@ -57,7 +62,7 @@ button {
 
 div#input-area>p {
     margin: 20px;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 #input-area {
@@ -70,6 +75,7 @@ div#input-area>p {
     width: 300px;
     margin-top: 80px;
     z-index: 1;
+    padding: 0 30px;
 }
 
 .blur {
@@ -87,6 +93,7 @@ div#input-area>p {
 
 .input-name {
     margin-top: 20px;
+    width: 100%;
 }
 
 #result {
@@ -100,6 +107,10 @@ div#input-area>p {
     justify-content: center;
     align-items: center;
     margin-top: 100px;
+}
+
+#result h2 {
+    margin: 0;
 }
 
 #text-result {
@@ -117,7 +128,7 @@ input {
 }
 
 button:hover {
-    color: red;
+    background-color: rgb(32, 32, 240)
 }
 
 .spin {
@@ -133,7 +144,7 @@ button:hover {
 }
 
 .result-button {
-    margin: 0 50px;
+    margin: 10px 50px;
     width: 100px;
 }
 
@@ -150,14 +161,6 @@ button:hover {
     margin: 0 30px 20px 30px;
 }
 
-img {
-    position: absolute;
-    height: 50px;
-    width: 50px;
-    margin-top: 225px;
-    margin-left: 245px;
-}
-
 .rotate {
     transform: rotate(-15deg);
 }
@@ -171,10 +174,29 @@ button:focus {
 }
 
 .save-button, .ok-button {
-    background-color: rgb(11, 238, 11);
+    background-color: rgb(51, 177, 51);
 }
 
 .cancel-button, .remove-button {
     background-color: gray;
 }
 
+.pointer-image {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    margin-top: 225px;
+    margin-left: 245px;
+}
+
+.ok-button:hover, .save-button:hover {
+    background-color: rgb(7, 241, 7);
+    color: #ffffff;
+    transition: ease .3s; 
+}
+
+.cancel-button:hover, .remove-button:hover {
+    background-color: rgb(170, 147, 147);
+    color: #ffffff;
+    transition: ease .3s;
+}

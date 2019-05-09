@@ -1,6 +1,6 @@
 var Wheel = new function __Wheel() {
 
-    this.name = [1, 2, 3, 4];
+    this.name = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     this.color = [];
     this.canvas = document.getElementById("myCanvas");
     this.ctx = this.canvas.getContext("2d");
@@ -12,7 +12,9 @@ var Wheel = new function __Wheel() {
     this.counter = Math.floor(Math.random() * 100);
     this.startAngle = 0;
     this.endAngle = 0;
-    
+    this.i = 0;
+    this.isActive = false;
+
 
     // set properties for the wheel when user inputs are adjusted
     this.setProperty = function () {
@@ -25,7 +27,7 @@ var Wheel = new function __Wheel() {
     }
 
     // Clear the canvas before drawing a new one
-    this.clearCanvas = function () { 
+    this.clearCanvas = function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
@@ -76,75 +78,93 @@ var Wheel = new function __Wheel() {
     }
 
     // Rotate the canvas a degree of one-seventh of each segment degree
-    this.rotate = function () {
+    this.rotate = function (degree) {
         this.ctx.translate(this.centerX, this.centerY);
-        this.ctx.rotate(Math.PI / 18);
+        this.ctx.rotate(degree);
         this.ctx.translate(-this.centerX, -this.centerY);
     }
 
     // Rotate the wheel
     this.rotateWheel = function () {
         $("#canvas .spin").click(() => {
-            console.log(this)
-            if (this.numSegments > 2) {
-                $("#result .remove-button").show();
-            } else {
-                $("#result .remove-button").hide();
+            if (this.isActive == false) {
+                this.isActive = true;
+                if (this.numSegments > 2) {
+                    $("#result .remove-button").show();
+                } else {
+                    $("#result .remove-button").hide();
+                }
+                $(".spin").text("?");
+                this.spin = setInterval(frame, 10);
+                this.spinSlower1 = setInterval(frame, 15);
+                this.spinSlower2 = setInterval(frame, 25);
+                this.spinSlower3 = setInterval(frame, 50);
+                let rotateNumber = 600 - this.counter;
+                this.rotateAngle = rotateNumber * Math.PI / 18;
+                this.endAngle = this.startAngle + this.rotateAngle - Math.PI / 18;
+                let pinNumber = Math.floor((this.endAngle % (2 * Math.PI)) / this.degreeEach);
+                this.pinNumber = this.name.length - 1 - pinNumber;
             }
-            $(".spin").text("?");
-            let i = 0;  
-            this.spin = setInterval(frame, 10);
-            this.spinSlower1 = setInterval(frame, 15);
-            this.spinSlower2 = setInterval(frame, 25);
-            this.spinSlower3 = setInterval(frame, 35);
-            this.spinSlower4 = setInterval(frame, 50);
-            let rotateNumber = 600 - this.counter;
-            this.rotateAngle = rotateNumber * Math.PI / 18;
-            this.endAngle = this.startAngle + this.rotateAngle;
-            let pinNumber = Math.floor((this.endAngle % (2 * Math.PI)) / this.degreeEach);
-            this.pinNumber = this.name.length - pinNumber - 1;
         });
+    }
+
+    function drawback() {
+        let counter = 0;
+        let draw = setInterval(function () { drawbackFrame(-Math.PI / 180) }, 30);
+        function drawbackFrame(degree) {
+            if (counter == 10) {
+                clearInterval(draw);
+            } else {
+                console.log(counter)
+                self.rotate(degree);
+                self.draw();
+                counter++;
+            }
+        }
     }
 
     function frame() {
         if (self.counter == 300) {
             clearInterval(self.spin);
         }
-        if (self.counter == 380) {
+        if (self.counter == 480) {
             clearInterval(self.spinSlower1);
         }
-        if (self.counter == 460) {
+        if (self.counter == 595) {
             clearInterval(self.spinSlower2);
         }
-        if (self.counter == 540) {
-            clearInterval(self.spinSlower3)
-        }
         if (self.counter == 600) {
-            clearInterval(self.spinSlower4);
+            clearInterval(self.spinSlower3);
+            setTimeout(() => {
+                drawback();
+            }, 50);
             $("#canvas .spin").text("SPIN");
+            $("#canvas .pointer-image").removeClass("rotate");
+
             let p = document.createElement("p");
             p.id = "text-result";
             p.innerText = `${self.name[self.pinNumber]}`;
-
             setTimeout(() => {
                 $("#result").show();
-                $("#result-item").append(p);
+                $("#result .result-item").append(p);
+                self.isActive = false;
+                ResultArea.isActive = true;
             }
-                , 1000);
-            self.startAngle += self.rotateAngle;
+                , 1000)
+            self.startAngle += self.rotateAngle - Math.PI / 18;
             self.counter = 0;
         }
         else {
             $("#canvas .pointer-image").removeClass("rotate");
             self.clearCanvas();
-            self.rotate();
+            self.rotate(Math.PI / 18);
             self.draw();
             self.counter++;
-            // i++;
-            // if (i == 18) {
-            //     $("#canvas .pointer-image").addClass("rotate");
-            //     i = 0;
-            // }
+            self.i++;
+            if (self.i == 7) {
+                $("#canvas .pointer-image").addClass("rotate");
+                self.i = 0;
+            }
         }
     }
 
@@ -156,14 +176,17 @@ var Wheel = new function __Wheel() {
     }
 
     // Get random color
-    function getRandomColor () {
-        let letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        } if (color == '#000000') {
-            color = '#123456';
-        }
+    function getRandomColor() {
+        let color = "hsl(" + 360 * Math.random() + ',' +
+            ( 20 + 70 * Math.random()) + '%,' +
+            ( 40 + 20 * Math.random()) + '%)';
+        // let letters = '0123456789ABCDEF';
+        // let color = '#';
+        // for (let i = 0; i < 6; i++) {
+        //     color += letters[Math.floor(Math.random() * 16)];
+        // } if (color == '#000000') {
+        //     color = '#123456';
+        // }
         return color;
     }
 }

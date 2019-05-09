@@ -16,17 +16,17 @@ var InputArea = new function __InputArea() {
         <div class="alert alert-danger more-input-alert" role="alert">
             Please input more options !!!
         </div>
-        <textarea class="input-name" cols="30" rows="5" placeholder="Enter your options here"></textarea>
+        <textarea class="input-name" rows="5" placeholder="Enter your options here"></textarea>
         <div class="input-number-area">
             <div class="input-number">
                 <p>From</p>
                 <input type="number" class="number number-from"  value="0" min="0" max="100"
-                    oninput="inputNumber(event)">
+                    oninput="InputArea.inputNumber(event)">
             </div>
             <div class="input-number">
                 <p>To</p>
                 <input type="number" class="number number-to"  value="100" min="1" max="100"
-                    oninput="inputNumber(event)">
+                    oninput="InputArea.inputNumber(event)">
             </div>
         </div>
         <div class="buttons">
@@ -38,7 +38,7 @@ var InputArea = new function __InputArea() {
         $(canvas).html(html);
     }
 
-    function inputNumber(event) {
+    this.inputNumber = function (event) {
         // check if event input is a number or not
         let regex = /-?(\d+|\d+\.\d+|\.\d+)([eE][-+]?\d+)?/;
         if (event.inputType == "insertText") {
@@ -55,11 +55,13 @@ var InputArea = new function __InputArea() {
 
     this.enterOptions = function () {
         $("#body .enter-options").click(() => {
-            $("#input-area").toggle();
-            if ($("#myCanvas").hasClass("blur")) {
-                $("#myCanvas").removeClass("blur");
-            } else {
-                $("#myCanvas").addClass("blur");
+            if (!Wheel.isActive && !ResultArea.isActive) {
+                $("#input-area").toggle();
+                if ($("#myCanvas").hasClass("blur")) {
+                    $("#myCanvas").removeClass("blur");
+                } else {
+                    $("#myCanvas").addClass("blur");
+                }
             }
         })
     }
